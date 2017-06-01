@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity
             to : 目标视图id
          */
         simpleAdapter = new SimpleAdapter(getApplicationContext(), getData(),
-                R.layout.item, new String[]{"data1", "data2", "data3"}, new int[]{R.id.data1, R.id.data2, R.id.data3});
+                R.layout.item, new String[]{"data1", "data2", "data3", "imageView"},
+                new int[]{R.id.data1, R.id.data2, R.id.data3, R.id.imageView});
         //3.加载适配器
         //listView.setAdapter(arrayAdapter);
         listView.setAdapter(simpleAdapter);
@@ -64,9 +65,12 @@ public class MainActivity extends AppCompatActivity
         list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             Map map = new HashMap();
+            //添加文本
             map.put("data1", "data1."+new Random().nextLong());
             map.put("data2", "data2."+new Random().nextLong());
             map.put("data3", "data3."+new Random().nextLong());
+            //添加图片资源
+            map.put("imageView", R.mipmap.ic_launcher);
             list.add(map);
         }
         return list;
