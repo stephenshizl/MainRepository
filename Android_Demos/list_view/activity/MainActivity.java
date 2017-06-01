@@ -2,19 +2,15 @@ package com.example.a61555.firstapplication;
 /**
  * ArrayAdapter SimpleAdapter的用法
  */
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private SimpleAdapter simpleAdapter;
-    private String[] strs = {"test1", "test2", "test3", "test4"};//模拟数据
+    private String[] strs = {"test1", "test2", "test3", "test4"};//ArrayAdapter 模拟数据
     private List<Map<String, Object>> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //listView.setAdapter(arrayAdapter);
         listView.setAdapter(simpleAdapter);
     }
-    //生成模拟数据
+    //生成 SimpleAdapter 模拟数据
     private List<Map<String, Object>> getData(){
         list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
