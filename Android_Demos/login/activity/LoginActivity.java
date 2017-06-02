@@ -1,4 +1,4 @@
-package com.maintain.zhzy.maintain_zhzy.activity;
+package com.example.a61555.loginsessiondemo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
-import com.maintain.zhzy.maintain_zhzy.R;
 /**
  * Created by Administrator on 2017/5/31 0031.
  */
@@ -27,8 +25,12 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-                //参数1：上下文对象 参数2：目标页面的Actiityv
-                Intent intent = new Intent(context, MainActivity.class);
+                /*
+                    参数1：上下文对象
+                    参数2：目标页面的Actiity
+                 */
+                Intent intent = new Intent(context, null);
+                //跳转到目标页面
                 startActivity(intent);
             }
         });
