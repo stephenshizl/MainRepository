@@ -14,6 +14,8 @@ public class DateUtils {
     private int year;
     private int month;
     private int day;
+    private int hour;
+    private int minute;
 
     private DateUtils() {
         calendar = Calendar.getInstance();
@@ -26,8 +28,13 @@ public class DateUtils {
         将日期的字符串转换为字符数组
      */
     public char[] getDateCharArray() {
-        String dateStr = formatDate(getYear(), getMonth(), getDay());
-        return dateStr.toCharArray();
+        return (formatDate(getYear(), getMonth(), getDay())).toCharArray();
+    }
+    /*
+        将时间的字符串转换为字符数组
+     */
+    public char[] getTimeCharArray() {
+        return (formatTime(getHour(), getMinute()).toCharArray());
     }
     /*
         格式化日期
@@ -38,12 +45,22 @@ public class DateUtils {
         return simpleDateFormat.format(date);
     }
     /*
-        初始化日期
+        格式化日期
+     */
+    public String formatTime(int hour, int minute) {
+        Date date = new Date(0, 0, 0, hour, minute);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        return simpleDateFormat.format(date).substring(10);
+    }
+    /*
+        初始化日期和时间
      */
     public void initDate() {
         setYear(calendar.get(Calendar.YEAR));
         setMonth(calendar.get(Calendar.MONTH));
         setDay(calendar.get(Calendar.DAY_OF_MONTH));
+        setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        setMinute(calendar.get(Calendar.MINUTE));
     }
     /*
         设置日期
@@ -53,7 +70,13 @@ public class DateUtils {
         setMonth(month);
         setDay(day);
     }
-
+    /*
+        设置时间
+     */
+    public void setTime(int hour, int minute) {
+        setHour(hour);
+        setMinute(minute);
+    }
     public int getYear() {
         return year;
     }
@@ -76,5 +99,21 @@ public class DateUtils {
 
     private void setDay(int day) {
         this.day = day;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 }
