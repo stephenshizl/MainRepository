@@ -16,7 +16,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private DatePickerDialog.OnDateSetListener onDateSetListener;
     private EditText dateEditText;
     private DateUtils dateUtils;
 
