@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dateUtils.initDate();
         //绑定点击监听事件
         dateEditText.setOnClickListener(this);
-        //timeEditText.setOnClickListener(this);
         //初始化文本框显示日期信息
         setDateText();
     }
