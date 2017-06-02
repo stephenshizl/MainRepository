@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.a61555.floatingactionbuttondemo.MainActivity">
+    <item
+        android:id="@+id/action_item1"
+        android:orderInCategory="100"
+        android:title="ITEM1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_item2"
+        android:orderInCategory="100"
+        android:title="ITEM2"
+        app:showAsAction="never"/>
+</menu>
