@@ -1,9 +1,4 @@
 package com.baidu.location.demo;
-import com.baidu.baidulocationdemo.R;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.BDNotifyListener;
-import com.baidu.location.LocationClient;
 import android.app.Activity;
 import android.app.Service;
 import android.os.Bundle;
@@ -15,7 +10,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.baidu.baidulocationdemo.R;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.BDNotifyListener;
+import com.baidu.location.LocationClient;
+
 /***
+ * 位置消息提示
  * 实例演示位置提醒功能，由于定位本身具有空间性，所以设置当前点为提醒点，用户可以通过
  * 坐标拾取系统来自定义提醒点 http://api.map.baidu.com/lbsapi/getpoint/index.html
  * @author baidu

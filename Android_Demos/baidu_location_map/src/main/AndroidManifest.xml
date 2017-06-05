@@ -41,7 +41,7 @@
         <!-- App 私钥-value -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KEY" />
+            android:value="7ny8syzPglwEUwSM8METsYfFKEXVeA4R" />
         <!-- meta-data需要写在application中 -->
         <activity
             android:name="com.baidu.location.demo.MainActivity"

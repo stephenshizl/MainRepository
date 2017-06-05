@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /***
+ * 连续定位实例
  * 定位滤波demo，实际定位场景中，可能会存在很多的位置抖动，此示例展示了一种对定位结果进行的平滑优化处理
  * 实际测试下，该平滑策略在市区步行场景下，有明显平滑效果，有效减少了部分抖动，开放算法逻辑，希望能够对开发者提供帮助
  * 注意：该示例场景仅用于对定位结果优化处理的演示，里边相关的策略或算法并不一定适用于您的使用场景，请注意！！！
@@ -151,7 +152,7 @@ public class LocationFilter extends Activity {
 					// 构建Marker图标
 					BitmapDescriptor bitmap = null;
 					if (iscal == 0) {
-						bitmap = BitmapDescriptorFactory.fromResource(R.drawable.huaji); // 非推算结果
+						bitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_mark); // 非推算结果
 					} else {
 						bitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_focuse_mark); // 推算结果
 					}

@@ -1,13 +1,13 @@
 package com.baidu.location.demo;
 
 
-import com.baidu.baidulocationdemo.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.baidu.baidulocationdemo.R;
+
 /**
- * 常见问题
+ * 常见问题说明
  */
 public class QuestActivity extends Activity {
     @Override

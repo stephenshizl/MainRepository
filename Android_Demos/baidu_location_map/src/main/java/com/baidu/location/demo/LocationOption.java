@@ -1,10 +1,5 @@
 package com.baidu.location.demo;
 
-import com.baidu.baidulocationdemo.R;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
-import com.baidu.location.service.LocationService;
-import com.baidu.location.service.Utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +10,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.baidu.baidulocationdemo.R;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.location.service.LocationService;
+import com.baidu.location.service.Utils;
+
 
 /***
+ * 配置定位参数
  * 展示定位sdk配置的示例，配置选项后调用的实际上是locationActivity的定位功能，但是覆盖了新的配置项
  * 注意：有些选项存在缓存的原因，所有在选中后再取消依然会在定位结果中显示出来
  * @author baidu

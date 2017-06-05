@@ -1,11 +1,5 @@
 package com.baidu.location.demo;
 
-import com.baidu.baidulocationdemo.R;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
-import com.baidu.location.service.LocationService;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -14,7 +8,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.baidu.baidulocationdemo.R;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.Poi;
+import com.baidu.location.service.LocationService;
+
 /***
+ * 基础定位功能
  * 单点定位示例，用来展示基本的定位结果，配置在LocationService.java中
  * 默认配置也可以在LocationService中修改
  * 默认配置的内容自于开发者论坛中对开发者长期提出的疑问内容

@@ -1,9 +1,5 @@
 package com.baidu.location.demo;
 
-import com.baidu.baidulocationdemo.R;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.service.LocationService;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +8,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.baidu.baidulocationdemo.R;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.service.LocationService;
+
+/**
+ * 判断移动热点
+ */
 public class IsHotWifiActivity extends Activity{
 	
 

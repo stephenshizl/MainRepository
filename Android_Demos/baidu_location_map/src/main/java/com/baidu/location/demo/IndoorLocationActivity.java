@@ -13,15 +13,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import baidumapsdk.demo.indoorview.BaseStripAdapter;
-import baidumapsdk.demo.indoorview.StripListView;
-
 import com.baidu.baidulocationdemo.R;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.MapBaseIndoorMapInfo;
@@ -33,7 +29,11 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
+import baidumapsdk.demo.indoorview.BaseStripAdapter;
+import baidumapsdk.demo.indoorview.StripListView;
+
 /**
+ * 室内定位功能
  * 此demo用来展示如何结合定位SDK实现室内定位，并使用MyLocationOverlay绘制定位位置
  */
 public class IndoorLocationActivity extends Activity {

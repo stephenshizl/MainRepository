@@ -14,7 +14,8 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.location.service.LocationService;
 
 /***
- * 展示定位sdk自定义定位模式，注意！设置setOpenAutoNotifyMode后,setScanSpan会失效，回调由setOpenAutoNotifyMode内设置的数值决定
+ * 自定义回调示例
+ * 注意！设置setOpenAutoNotifyMode后,setScanSpan会失效，回调由setOpenAutoNotifyMode内设置的数值决定
  * @author baidu
  *
  */
