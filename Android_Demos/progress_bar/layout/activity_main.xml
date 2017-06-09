@@ -38,6 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
+    <!-- 可以自己重写进度条样式 -->
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/btn_progressDialog"
         android:text="Click"
