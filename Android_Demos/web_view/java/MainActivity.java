@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
                     dialog.setTitle("Loading……");//设置Dialog标题
                     dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);//设置Dialog样式
                     dialog.setIndeterminate(false);//打开显示进度详细数据
-                    dialog.setProgress(newProgress);//设置Progress的ID
+                    dialog.setProgress(newProgress);//Progress进度
                     dialog.show();//打开Dialog显示的开关
                 } else {
                     dialog.setProgress(newProgress);
