@@ -1,10 +1,15 @@
 package com.example.a61555.bottomnavigationdemo1;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * 用tablayout来实现底部navigation
@@ -14,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private Fragment[] fragments;
-    private final int TAB_NUM = 4;//Tab页的数量
+    private final int TAB_COUNT = 4;//Tab页的数量
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,23 +33,34 @@ public class MainActivity extends AppCompatActivity {
         //获得TabLayout实例
         tabLayout = (TabLayout) findViewById(R.id.bottom_tab_layout);
         //初始化Tab
-        for(int i=0;i<TAB_NUM;i++) {
-            tabLayout.addTab(tabLayout.newTab().setIcon(getResources()
-                    .getDrawable(TabLayoutUtils.mTabResUnpressed[i], null))
-                    .setText(TabLayoutUtils.mTabTitle[i]));
+        for(int i=0;i<TAB_COUNT;i++) {
+            //tabLayout.addTab(tabLayout.newTab().setIcon(getResources().getDrawable(TabLayoutUtils.mTabResUnpressed[i], null)).setText(TabLayoutUtils.mTabTitle[i]));
+            tabLayout.addTab(tabLayout.newTab().setCustomView(TabLayoutUtils.getTabView(this, i)));
         }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
                 onTabItemSelected(tab.getPosition());
                 //改变Tab显示状态
                 for(int i=0;i< tabLayout.getTabCount();i++){
+
+                    View view = tabLayout.getTabAt(i).getCustomView();
+                    ImageView icon = (ImageView) view.findViewById(R.id.tab_content_image);
+                    TextView title = (TextView) view.findViewById(R.id.tab_content_text);
+
                     if(i == tab.getPosition()){
-                        tabLayout.getTabAt(i).setIcon(getResources().getDrawable(TabLayoutUtils.mTabResPressed[i], null));
+                        //选中状态
+                        //tabLayout.getTabAt(i).setIcon(getResources().getDrawable(TabLayoutUtils.mTabResPressed[i], null));
+                        icon.setImageResource(TabLayoutUtils.mTabResPressed[i]);
+                        title.setTextColor(getResources().getColor(android.R.color.black));
                     }else{
-                        tabLayout.getTabAt(i).setIcon(getResources().getDrawable(TabLayoutUtils.mTabRes[i], null));
+                        //未选中状态
+                        //tabLayout.getTabAt(i).setIcon(getResources().getDrawable(TabLayoutUtils.mTabRes[i], null));
+                        icon.setImageResource(TabLayoutUtils.mTabRes[i]);
+                        title.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     }
                 }
             }
