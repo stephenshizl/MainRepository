@@ -9,6 +9,9 @@ import android.view.MenuItem;
 
 /**
  * 需引入 com.android.support:design
+ * 使用BottomNavigationView+Fragment实现底部导航栏
+ * BottomNavigatonView的tab只能是3-5个，多了或者少了是会报错。
+ * 第一次进入页面的时候不会调用onNavigationItemSelected 方法因此第一次需要手动调用 添加fragment的方法。
  */
 public class MainActivity extends AppCompatActivity {
 
