@@ -5,8 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+/**
+ * 使用FragmentPagerStateAdapter/FragmentPagerAdapter & Fragment & ViewPager
+ * 实现了左右滚动页的功能
+ */
+public class MainActivity extends FragmentActivity{
 
     private Fragment[] fragments;
     private MyFragmentPagerAdapter myFragmentPagerAdapter;
@@ -40,5 +45,22 @@ public class MainActivity extends FragmentActivity {
         viewPager.setAdapter(myFragmentStatePagerAdapter);
         //自定义首页
         viewPager.setCurrentItem(FIRST_VIEW_PAGER_NUM);
+        //添加页面切换的监听器
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(getApplicationContext(), "PAGE "+(position+1)+" BE SELECTED", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }
