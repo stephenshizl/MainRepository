@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.a61555.sharedpreferencedemo.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +13,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <EditText
-            android:id="@+id/et1"
+            android:id="@+id/edit_text_username"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:textSize="14sp"
@@ -21,7 +24,7 @@
             android:paddingLeft="10dp"
             android:background="@color/colorTextBackground"/>
         <EditText
-            android:id="@+id/et2"
+            android:id="@+id/edit_text_password"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:textSize="14sp"
@@ -33,7 +36,7 @@
             android:inputType="textPassword"
             android:background="@color/colorTextBackground"/>
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:textSize="16sp"
@@ -44,7 +47,7 @@
             android:layout_marginTop="20dp"
             android:textColor="@color/colorButtonText" />
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/save_info_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="保存用户名和密码"
@@ -54,4 +57,5 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorCheckboxText"/>
     </LinearLayout>
+
 </LinearLayout>
