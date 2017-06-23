@@ -2,7 +2,6 @@ package com.example.a61555.sharedpreferencedemo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,18 +12,16 @@ import java.util.Map;
 
 /**
  * Created by 61555 on 2017/6/22.
+ * 该类为工具类，使用该类来将信息加密之后存储
+ * Method 1：存储在File中，利用saveUserInfo2File()和getUserInfoFromFile 才操作存储的数据
+ *
+ * Method 2：Android平台给我们提供了一个SharedPreferences类，它是一个轻量级的存储类，
+ *          特别适合用于保存软件配置参数。使用SharedPreferences保存数据，其背后是用xml文件存放数据，
+ *          文件存放在/data/data/<package name>/shared_prefs目录下.
+ *          我们利用saveUserInfo2Pref()和getUserInfoFormPref()来获取存储的数据
  */
 
 public class SaveInfoUtils {
-
-    private final char[] UC_ENCRYPT_CHARS = {'M','D','X','U','P','I','B','E','J','C','T','N',
-            'K','O','G','W','R','S','F','Y','V','L','Z','Q','A','H'};
-    private final char[] LC_ENCRYPT_CHARS = {'m','d','x','u','p','i','b','e','j','c','t','n',
-            'k','o','g','w','r','s','f','y','v','l','z','q','a','h'};
-    private final int[] ENCRYPT_NUMBER = {4,5,1,6,3,2,0,8,9,7};
-    private char[] UC_DECRYPT_CHARS = new char[26];
-    private char[] LC_DECRYPT_CHARS = new char[26];
-    private int[] DECRYPT_NUMBER = new int[10];
 
     private final String SAVE_FILE_NAME = "userinfo.txt";
     private final String SAVE_PREF_NAME = "userInfo";
@@ -35,36 +32,23 @@ public class SaveInfoUtils {
 
     public SaveInfoUtils(Context context) {
         this.context = context;
-        arrayInit();
         prefInit();
     }
-
-    /**
-     * 初始化数组
-     */
-    private void arrayInit() {
-        for (int i=0;i<26;i++){
-            char b = UC_ENCRYPT_CHARS[i];
-            UC_DECRYPT_CHARS[b-'A'] = b;
-            b = LC_ENCRYPT_CHARS[i];
-            LC_DECRYPT_CHARS[b-'a'] = b;
-        }
-
-        for (int i=0;i<10;i++) {
-            int n = ENCRYPT_NUMBER[i];
-            DECRYPT_NUMBER[n] = n;
-        }
-    }
-
     /**
      * 初始化SharedPreference
+     *   Context.MODE_PRIVATE：为默认操作模式,代表该文件是私有数据,只能被应用本身或者共享了user id的应用访问,在该模式下,写入的内容会覆盖原文件的内容
+         Context.MODE_APPEND：模式会检查文件是否存在,存在就往文件追加内容,否则就创建新文件.
+         Context.MODE_WORLD_READABLE：表示当前文件可以被其他应用读取，已为过时方法.
+         Context.MODE_WORLD_WRITEABLE：表示当前文件可以被其他应用写入，已为过时方法.
+         Context.MODE_ENABLE_WRITE_AHEAD_LOGGING：
+         Context.MODE_NO_LOCALIZED_COLLATORS：
      */
     private void prefInit() {
         sharedPreferences = context.getSharedPreferences(SAVE_PREF_NAME, context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
     /**
-     * 保存信息到本地文件
+     * 保存信息到本地文件File中
      * @param username
      * @param password
      * @return
@@ -76,8 +60,8 @@ public class SaveInfoUtils {
             // 创建输出流对象
             FileOutputStream fos = new FileOutputStream(file);
             //使用加密算法
-            String username_en = encrypt(username);
-            String password_en = encrypt(password);
+            String username_en = EncryptionUtils.encrypt(username);
+            String password_en = EncryptionUtils.encrypt(password);
             // 向文件中写入信息
             fos.write((username_en + "##" + password_en).getBytes());
             // 关闭输出流对象
@@ -88,7 +72,7 @@ public class SaveInfoUtils {
         }
     }
     /**
-     * 读取信息从本地文件中
+     * 读取信息从本地文件File中
      * @return
      */
     public Map<String, String> getUserInfoFromFile() {
@@ -107,8 +91,8 @@ public class SaveInfoUtils {
                 // 使用保存信息使用的##将内容分割出来
                 String[] contents = content.split("##");
                 //使用解码算法
-                String username_de = decrypt(contents[0]);
-                String password_de = decrypt(contents[1]);
+                String username_de = EncryptionUtils.decrypt(contents[0]);
+                String password_de = EncryptionUtils.decrypt(contents[1]);
                 // 保存到map集合中
                 map.put("username", username_de);
                 map.put("password", password_de);
@@ -134,8 +118,8 @@ public class SaveInfoUtils {
      * @return
      */
     public boolean saveUserInfo2Pref(String username, String password){
-        editor.putString("username", encrypt(username));
-        editor.putString("password", encrypt(password));
+        editor.putString("username", EncryptionUtils.encrypt(username));
+        editor.putString("password", EncryptionUtils.encrypt(password));
         return editor.commit();//提交事务
     }
     /**
@@ -144,65 +128,8 @@ public class SaveInfoUtils {
      */
     public Map<String, String> getUserInfoFromPref() {
         Map infoMap = new HashMap();
-        infoMap.put("username", decrypt(sharedPreferences.getString("username", "")));
-        infoMap.put("password", decrypt(sharedPreferences.getString("password", "")));
+        infoMap.put("username", EncryptionUtils.decrypt(sharedPreferences.getString("username", "")));
+        infoMap.put("password", EncryptionUtils.decrypt(sharedPreferences.getString("password", "")));
         return infoMap;
-    }
-    /**
-     * 加密算法
-     * @param b
-     * @return
-     */
-    public char encrypt(char b){
-        if (b >= 'A' && b <= 'Z'){
-            return UC_ENCRYPT_CHARS[b-'A'];
-        }else if(b >= 'a' && b <= 'z'){
-            return LC_ENCRYPT_CHARS[b-'a'];
-        }else if (b >= '0' && b <= '9'){
-            int b_int = Integer.parseInt(Character.toString(b));
-            return Integer.toString(ENCRYPT_NUMBER[b_int]).charAt(0);
-        } else {
-            return b;
-        }
-    }
-    public String encrypt(String input){
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            sb.append(encrypt(input.charAt(i)));
-        }
-        return sb.toString();
-    }
-    /**
-     * 解密算法
-     * @param b
-     * @return
-     */
-    public char decrypt(char b){
-        int index = 0;
-        String b_str = Character.toString(b);
-        if (b >= 'A' && b <= 'Z'){
-            index = new String(UC_ENCRYPT_CHARS).indexOf(b_str);
-            return UC_DECRYPT_CHARS[index];
-        }else if (b >= 'a' && b <= 'z'){
-            index = new String(LC_ENCRYPT_CHARS).indexOf(b_str);
-            return LC_DECRYPT_CHARS[index];
-        }else if (b >= '0' && b <= '9'){
-            for (int i = 0; i < ENCRYPT_NUMBER.length; i++) {
-                if (Integer.parseInt(b_str) == ENCRYPT_NUMBER[i]){
-                    index = i;
-                    break;
-                }
-            }
-            return Integer.toString(DECRYPT_NUMBER[index]).charAt(0);
-        } else {
-            return b;
-        }
-    }
-    public String decrypt(String input){
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            sb.append(decrypt(input.charAt(i)));
-        }
-        return sb.toString();
     }
 }
