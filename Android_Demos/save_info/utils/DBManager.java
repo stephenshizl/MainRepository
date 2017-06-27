@@ -29,7 +29,7 @@ public class DBManager {
         db.beginTransaction();  //开始事务
         try {
             for (User user : users) {
-                db.execSQL("INSERT INTO user VALUES(null, ?, ?)", new Object[]{user.name, user.password});
+                db.execSQL("INSERT INTO user VALUES(null, ?, ?)", new Object[]{user.getName(), user.getPassword()});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
@@ -39,19 +39,27 @@ public class DBManager {
 
     /**
      * query all users, return list
+     * 一个最需要注意的是，在我们的结果集中必须要包含一个“_id”的列，
+     * 否则SimpleCursorAdapter就会翻脸不认人，因为这源于SQLite的规范，主键以“_id”为标准。
      * @return List<User>
      */
     public List<User> query() {
         ArrayList<User> users = new ArrayList<User>();
-        Cursor c = queryTheCursor();
-        while (c.moveToNext()) {
+        Cursor cursor = queryTheCursor();
+        cursor.moveToLast();//只取最新的数据
+        User user = new User();
+        user.set_id(cursor.getInt(cursor.getColumnIndex("_id")));
+        user.setName(cursor.getString(cursor.getColumnIndex("name")));
+        user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+        users.add(user);
+        /*while (cursor.moveToNext()) {
             User user = new User();
-            user._id = c.getInt(c.getColumnIndex("_id"));
-            user.name = c.getString(c.getColumnIndex("name"));
-            user.password = c.getString(c.getColumnIndex("password"));
+            user.set_id(cursor.getInt(cursor.getColumnIndex("_id")));
+            user.setName(cursor.getString(cursor.getColumnIndex("name")));
+            user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
             users.add(user);
-        }
-        c.close();
+        }*/
+        cursor.close();
         return users;
     }
     /**

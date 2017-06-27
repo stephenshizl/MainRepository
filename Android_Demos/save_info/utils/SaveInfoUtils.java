@@ -1,18 +1,10 @@
 package com.example.a61555.sharedpreferencedemo;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 61555 on 2017/6/22.
@@ -23,20 +15,23 @@ import java.util.Map;
  *          特别适合用于保存软件配置参数。使用SharedPreferences保存数据，其背后是用xml文件存放数据，
  *          文件存放在/data/data/<package name>/shared_prefs目录下.
  *          我们利用saveUserInfo2Pref()和getUserInfoFormPref()来获取存储的数据
+ * Method 3：将数据存储在SQLite Database中，saveUserInfo2DB和getUserInfoFromDB操作
  */
 
 public class SaveInfoUtils {
 
     private final String SAVE_FILE_NAME = "userinfo.txt";
     private final String SAVE_PREF_NAME = "userInfo";
+    private FileUtils fileUtils;
+    private SharedPreferenceUtils sharedPreferenceUtils;
     private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     public SaveInfoUtils(Context context) {
         this.context = context;
-        prefInit();
+        fileUtils = new FileUtils(context);
+        sharedPreferenceUtils = new SharedPreferenceUtils(context);
     }
+
     /**
      * 初始化SharedPreference
      *   Context.MODE_PRIVATE：为默认操作模式,代表该文件是私有数据,只能被应用本身或者共享了user id的应用访问,在该模式下,写入的内容会覆盖原文件的内容
@@ -46,106 +41,48 @@ public class SaveInfoUtils {
          Context.MODE_ENABLE_WRITE_AHEAD_LOGGING：
          Context.MODE_NO_LOCALIZED_COLLATORS：
      */
-    private void prefInit() {
+    /*private void prefInit() {
         sharedPreferences = context.getSharedPreferences(SAVE_PREF_NAME, context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-    }
+    }*/
     /**
      * 保存信息到本地文件File中
-     * @param username
-     * @param password
+     * @param user
      * @return
      */
-    public boolean saveUserInfo2File(String username, String password) {
-        try {
-            // 使用Android上下问获取当前项目的路径
-            File file = new File(context.getFilesDir(), SAVE_FILE_NAME);
-            // 创建输出流对象
-            FileOutputStream fos = new FileOutputStream(file);
-            //使用加密算法
-            String username_en = EncryptionUtils.encrypt(username);
-            String password_en = EncryptionUtils.encrypt(password);
-            // 向文件中写入信息
-            fos.write((username_en + "##" + password_en).getBytes());
-            // 关闭输出流对象
-            fos.close();
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
+    public boolean saveUserInfo2File(User user) {
+        return fileUtils.saveUserInfo2File(user, SAVE_FILE_NAME);
     }
     /**
      * 读取信息从本地文件File中
      * @return
      */
-    public Map<String, String> getUserInfoFromFile() {
-        // 创建FIle对象
-        File file = new File(context.getFilesDir(), SAVE_FILE_NAME);
-        // 创建Map集合
-        Map<String, String> map = new HashMap<String, String>();
-        try {
-            if (file.isFile()){
-                // 创建FileInputStream对象
-                FileInputStream fis = new FileInputStream(file);
-                // 创建BufferedReader对象
-                BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-                // 获取文件中的内容
-                String content = br.readLine();
-                // 使用保存信息使用的##将内容分割出来
-                String[] contents = content.split("##");
-                //使用解码算法
-                String username_de = EncryptionUtils.decrypt(contents[0]);
-                String password_de = EncryptionUtils.decrypt(contents[1]);
-                // 保存到map集合中
-                map.put("username", username_de);
-                map.put("password", password_de);
-                // 关闭流对象
-                fis.close();
-                br.close();
-            } else {
-                map.put("username", "");
-                map.put("password", "");
-            }
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return map;
-        }
+    public User getUserInfoFromFile() {
+        return fileUtils.getUserInfoFromFile(SAVE_FILE_NAME);
     }
     /**
      * 使用SharedPreference将信息保存到 xml配置文件
-     * @param username
-     * @param password
+     * @param user
      * @return
      */
-    public boolean saveUserInfo2Pref(String username, String password){
-        editor.putString("username", EncryptionUtils.encrypt(username));
-        editor.putString("password", EncryptionUtils.encrypt(password));
-        return editor.commit();//提交事务
+    public boolean saveUserInfo2Pref(User user){
+        return sharedPreferenceUtils.saveInfo(user, SAVE_PREF_NAME);
     }
     /**
      * 读取信息从xml配置文件中
      * @return
      */
-    public Map<String, String> getUserInfoFromPref() {
-        Map infoMap = new HashMap();
-        infoMap.put("username", EncryptionUtils.decrypt(sharedPreferences.getString("username", "")));
-        infoMap.put("password", EncryptionUtils.decrypt(sharedPreferences.getString("password", "")));
-        return infoMap;
+    public User getUserInfoFromPref() {
+        return sharedPreferenceUtils.getInfo(SAVE_PREF_NAME);
     }
 
     /**
      * 将数据保存到SQLite数据库中
-     * @param username
-     * @param password
+     * @param user
      */
-    public void saveUserInfo2DB(String username, String password) {
+    public void saveUserInfo2DB(User user) {
         DBManager manager = new DBManager(context);
         List userList = new ArrayList();
-        User user = new User();
-        user.name = username;
-        user.password = password;
         userList.add(user);
         manager.add(userList);
         Toast.makeText(context, "已添加测试数据", Toast.LENGTH_SHORT).show();
@@ -158,6 +95,6 @@ public class SaveInfoUtils {
     public User getUserInfoFromDB() {
         DBManager manager = new DBManager(context);
         List userList = manager.query();
-        return (User) userList.get(0);
+        return (User) userList.get(0);//只取第一个
     }
 }
