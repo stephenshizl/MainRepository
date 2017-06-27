@@ -2,12 +2,16 @@ package com.example.a61555.sharedpreferencedemo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +32,6 @@ public class SaveInfoUtils {
     private Context context;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
 
     public SaveInfoUtils(Context context) {
         this.context = context;
@@ -111,8 +114,7 @@ public class SaveInfoUtils {
         }
     }
     /**
-     * 使用SharedPreference将信息
-     * 保存到 xml配置文件
+     * 使用SharedPreference将信息保存到 xml配置文件
      * @param username
      * @param password
      * @return
@@ -131,5 +133,31 @@ public class SaveInfoUtils {
         infoMap.put("username", EncryptionUtils.decrypt(sharedPreferences.getString("username", "")));
         infoMap.put("password", EncryptionUtils.decrypt(sharedPreferences.getString("password", "")));
         return infoMap;
+    }
+
+    /**
+     * 将数据保存到SQLite数据库中
+     * @param username
+     * @param password
+     */
+    public void saveUserInfo2DB(String username, String password) {
+        DBManager manager = new DBManager(context);
+        List userList = new ArrayList();
+        User user = new User();
+        user.name = username;
+        user.password = password;
+        userList.add(user);
+        manager.add(userList);
+        Toast.makeText(context, "已添加测试数据", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 从SQLite中获取数据
+     * @return
+     */
+    public User getUserInfoFromDB() {
+        DBManager manager = new DBManager(context);
+        List userList = manager.query();
+        return (User) userList.get(0);
     }
 }
