@@ -1,0 +1,1 @@
+ * 利用ContentResolver访问ContentProvider操纵其他应用中的数据（Demo里是操纵联系人数据）
