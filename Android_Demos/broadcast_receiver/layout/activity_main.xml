@@ -19,10 +19,16 @@
         android:layout_height="wrap_content"
         android:text="Send Normal Priority Broadcast"/>
 
+
     <Button
         android:id="@+id/custom_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send Custom Broadcast"/>
 
+    <Button
+        android:id="@+id/local_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Local Broadcast"/>
 </LinearLayout>
