@@ -7,28 +7,44 @@
     android:orientation="vertical"
     tools:context="com.example.a61555.normalreceiverdemo.MainActivity">
 
+    <TextView
+        android:id="@+id/battery_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/normal_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Normal Broadcast"/>
+        android:text="发送普通广播"
+        android:onClick="sendNormalBroadcast"/>
 
     <Button
         android:id="@+id/normal_priority_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Normal Priority Broadcast"/>
+        android:text="发送有序广播"
+        android:onClick="sendNormalPriorityBroadcast"/>
 
 
     <Button
         android:id="@+id/custom_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Custom Broadcast"/>
+        android:text="发送动态注册广播"
+        android:onClick="sendCustomBroadcast"/>
 
     <Button
         android:id="@+id/local_broadcast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Local Broadcast"/>
+        android:text="发送本地广播"
+        android:onClick="sendLocalBroadcast"/>
+
+    <Button
+        android:id="@+id/permission_broadcast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送私有权限广播"
+        android:onClick="sendPermissionBroadcast"/>
 </LinearLayout>

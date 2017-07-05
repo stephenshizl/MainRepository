@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by 61555 on 2017/7/3.
@@ -18,9 +19,8 @@ public class SecondNormalReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         String msg = intent.getStringExtra("broadcast");//读取接受到的String
-        // 截断广播，优先级低于 SecondNormalReceiver 的将会接收不到广播，
-        // 但是在静态注册的接收器不可以截断广播
-        //abortBroadcast();
+        //abortBroadcast();// 截断广播，优先级低于 SecondNormalReceiver 的将会接收不到广播，但是在静态注册的接收器不可以截断广播
+        Toast.makeText(context, TAG+":"+msg, Toast.LENGTH_SHORT).show();
         Log.e(TAG, msg);
 
     }

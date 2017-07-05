@@ -31,6 +31,45 @@
                 <action android:name="com.example.latou.normal.priority.receiver" />
             </intent-filter>
         </receiver>
+
+        <!--监听应用的安装、更新和卸载-->
+        <receiver android:name=".AppInstallReceiver" android:enabled="true">
+            <intent-filter>
+                <!--安装应用-->
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <!--更新应用-->
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <!--卸载应用-->
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <!--携带包名-->
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!--自定义广播的接收范围-->
+        <!--<receiver
+            android:name=".PermissionReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>-->
+
+        <!--静态注册广播接收器，监听网络状态变化-->
+        <receiver android:name=".NetworkStatusReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
+
+    <!--自定义权限时必须同时指定 protectionLevel 属性值，系统根据该属性值确定自定义权限的使用方式-->
+    <uses-permission android:name="com.example.permission.receiver" />
+    <permission
+        android:name="com.example.permission.receiver"
+        android:protectionLevel="signature" />
+
+    <!--获得检测网络状态的权限-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

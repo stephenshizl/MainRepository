@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by 61555 on 2017/7/3.
@@ -19,6 +20,7 @@ public class NormalReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         String msg = intent.getStringExtra("broadcast");//读取接受到的String
+        Toast.makeText(context, TAG+":"+msg, Toast.LENGTH_SHORT).show();
         Log.e(TAG, msg);
     }
 }

@@ -4,30 +4,34 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.BatteryManager;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Android 四大组件 Broadcast
  * 静态注册和动态注册广播接收器
  * 并且包含全局广播和本地广播的实现方法
+ * 可检测电池电量、网络连接状态、应用的安装卸载
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity {
 
     private final String NORMAL_ACTION = "com.example.latou.normal.receiver";//指定接受广播信息的目标的唯一标识
     private final String NORMAL_PRIORITY_ACTION = "com.example.latou.normal.priority.receiver";
     private final String CUSTOM_ACTION = "com.example.latou.custom.receiver";
     private final String LOCAL_ACTION = "com.example.latou.local.receiver";
+    private final String PERMISSION_ACTION = "com.example.latou.permission.receiver";
+
+    private final String PRIVATE_PERMISSION = "com.example.permission.receiver";//自定义权限
+
     private final String TAG = "MainActivity";//打印的日志文件的标题
 
-    private Button btnNormalBroadcsat = null;
-    private Button btnNormalPriorityBroadcast = null;
-    private Button btnCustomBroadcast = null;
-    private Button btnLocalBroadcast = null;
+    private TextView batteryTextView = null;
 
     private BroadcastReceiver customBroadcastReceiver = null;//自定义广播接收器
     private IntentFilter intentFilter = null;//自定义过滤器
@@ -39,20 +43,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LocalBroadcastManager localBroadcastManager = null;
     private IntentFilter localIntentFilter = null;
 
+    private BroadcastReceiver batteryReceiver = null;//监听手机电量 接收系统广播
+
+    private BroadcastReceiver permissionReceiver = null;//自定义权限广播接收器
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    //在 onResume() 中注册广播接收器
+    @Override
+    protected void onResume() {
+        super.onResume();
         init();
     }
 
+    /*
+        onPause()注销是因为onPause()在App死亡前一定会被执行，从而保证广播在App死亡前一定会被注销，从而防止内存泄露
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(customBroadcastReceiver);
+        localBroadcastManager.unregisterReceiver(localBroadcastReceiver);
+        unregisterReceiver(batteryReceiver);
+        unregisterReceiver(permissionReceiver);
+    }
+
     public void init() {
-
-        btnNormalBroadcsat = (Button) findViewById(R.id.normal_broadcast);
-        btnNormalBroadcsat.setOnClickListener(this);
-
-        btnNormalPriorityBroadcast = (Button) findViewById(R.id.normal_priority_broadcast);
-        btnNormalPriorityBroadcast.setOnClickListener(this);
 
         //自定义过滤器
         intentFilter = new IntentFilter(CUSTOM_ACTION);
@@ -61,12 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("broadcast");//读取接受到的String
+                Toast.makeText(context, "CustomBroadcastReceiver:"+msg, Toast.LENGTH_SHORT).show();
                 Log.e("CustomBroadcastReceiver", msg);
             }
         };
         registerReceiver(customBroadcastReceiver, intentFilter);//动态注册广播接收器
-        btnCustomBroadcast = (Button) findViewById(R.id.custom_broadcast);
-        btnCustomBroadcast.setOnClickListener(this);
 
         //本地广播过滤器
         localIntentFilter = new IntentFilter(LOCAL_ACTION);
@@ -76,12 +100,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("broadcast");//读取接受到的String
+                Toast.makeText(context, "LocalBroadcastReceiver:"+msg, Toast.LENGTH_SHORT).show();
                 Log.e("LocalBroadcastReceiver", msg);
             }
         };
         localBroadcastManager.registerReceiver(localBroadcastReceiver, localIntentFilter);//动态注册本地广播接收器
-        btnLocalBroadcast = (Button) findViewById(R.id.local_broadcast);
-        btnLocalBroadcast.setOnClickListener(this);
+
+        //系统广播 监听手机电量
+        batteryTextView = (TextView) findViewById(R.id.battery_text);
+        batteryReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int currentBattery = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);// 当前电量
+                int totalBattery = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0);// 总电量
+                batteryTextView.setText("当前电量:" + currentBattery + "  总电量：" + totalBattery);
+                Log.e(TAG, "当前电量 :" + currentBattery + "  总电量 ：" + totalBattery);
+            }
+        };
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+        //自定义权限广播接收器
+        permissionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String msg = intent.getStringExtra("broadcast");//读取接受到的String
+                Toast.makeText(context, "Permission BroadcastReceiver:"+msg, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Permission Broadcast Receiver");
+            }
+        };
+        registerReceiver(permissionReceiver, new IntentFilter(PERMISSION_ACTION), PRIVATE_PERMISSION, null);
     }
 
     /**
@@ -132,26 +179,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void sendLocalBroadcast(View view) {
         Intent intent = new Intent(LOCAL_ACTION);
         intent.putExtra("broadcast", "Local Broadcast");
-        sendBroadcast(intent);
+        localBroadcastManager.sendBroadcast(intent);//发送本地广播
         Log.i(TAG, "Send Local Broadcast...");
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.normal_broadcast:
-                sendNormalBroadcast(v);
-                break;
-            case R.id.normal_priority_broadcast:
-                sendNormalPriorityBroadcast(v);
-                break;
-            case R.id.custom_broadcast:
-                sendCustomBroadcast(v);
-                break;
-            case R.id.local_broadcast:
-                sendLocalBroadcast(v);
-            default:
-                break;
-        }
+    /**
+     * 全局广播
+     * 限制广播发送的范围，只有声明了相同权限的才能接收
+     * @param view
+     */
+    public void sendPermissionBroadcast(View view) {
+        Intent intent = new Intent(PERMISSION_ACTION);
+        intent.putExtra("broadcast", "Permission Broadcast");
+        sendBroadcast(intent, PRIVATE_PERMISSION);//发送
+        Log.i(TAG, "Send Permission Broadcast...");
     }
 }
