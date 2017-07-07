@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.a61555.servicedemo.MainActivity">
+
+    <TextView
+        android:id="@+id/local_service_state"
+        android:text="本地服务状态:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/open_local_service"
+        android:text="打开本地服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openLocalService"/>
+    <Button
+        android:id="@+id/close_local_service"
+        android:text="关闭本地服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="closeLocalService"/>
+
+    <TextView
+        android:id="@+id/bind_service_state"
+        android:text="本地可通信服务状态:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/open_bind_service"
+        android:text="启动服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openLocalBindService"/>
+    <Button
+        android:id="@+id/bind_service"
+        android:text="绑定服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="bindService"/>
+    <Button
+        android:id="@+id/unbind_service"
+        android:text="解绑服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="unbindService"/>
+    <Button
+        android:id="@+id/close_bind_service"
+        android:text="关闭服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="closeLocalBindService"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20sp" />
+    <Button
+        android:id="@+id/open_front_service"
+        android:text="打开前台服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openFrontService"/>
+    <Button
+        android:id="@+id/close_front_service"
+        android:text="关闭前台服务"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="closeFrontService"/>
+
+</LinearLayout>
