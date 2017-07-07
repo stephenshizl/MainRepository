@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * 本地服务的实现方法，包括静态声明和动态声明
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView localServiceState = null;
@@ -72,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
         unbindService(mServiceConnection);
         localBindServiceState.setText(localBindServicePrefix+"已经解绑服务");
     }
-    //
+    //打开前端服务，服务会已通知的方式弹出
     public void openFrontService(View v) {
         startService(localFrontServiceIntent);
     }
-    //
+    //关闭前端服务
     public void closeFrontService(View v) {
         stopService(localFrontServiceIntent);
     }
