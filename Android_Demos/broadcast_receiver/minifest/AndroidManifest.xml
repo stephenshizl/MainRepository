@@ -54,10 +54,11 @@
         </receiver>-->
 
         <!--静态注册广播接收器，监听网络状态变化-->
-        <receiver android:name=".NetworkStatusReceiver">
+        <receiver android:name=".NetworkStatusReceiver"
+                    android:label="NetworkStatusReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
     </application>
@@ -69,7 +70,5 @@
         android:protectionLevel="signature" />
 
     <!--获得检测网络状态的权限-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>
