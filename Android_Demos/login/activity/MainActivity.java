@@ -1,4 +1,4 @@
-package com.example.a61555.sharedpreferencedemo;
+package com.example.a61555.debugapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean saveInfoFlag = false;
     private String username;
     private String password;
-    private SaveInfoUtils saveInfoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        saveInfoUtils = new SaveInfoUtils(this);
-        //
         loginBtn = (Button) findViewById(R.id.login_btn);
         usernameEditText = (EditText) findViewById(R.id.edit_text_username);
         passwordEditText = (EditText) findViewById(R.id.edit_text_password);
@@ -49,21 +46,22 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //跳转到目标页面
+                Intent intent = new Intent(MainActivity.this, NextPageActivity.class);
                 //获取用户信息
                 username = usernameEditText.getText()+"";
                 password = passwordEditText.getText()+"";
                 //判断是否保存用户信息
                 if (saveInfoFlag) {
-                    //将info存入File中
-                    //saveInfoUtils.saveUserInfo(username, password);
-                    //将info存入SharedPreference中
-                    saveInfoUtils.saveUserInfo2Pref(username, password);
                     Toast.makeText(MainActivity.this, "save user info", Toast.LENGTH_SHORT).show();
+                    //保存用户信息
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", username);
+                    bundle.putString("password", password);
+                    intent.putExtra("info", bundle);
                 } else {
                     Toast.makeText(MainActivity.this, "dont save user info", Toast.LENGTH_SHORT).show();
                 }
-                //跳转到目标页面
-                Intent intent = new Intent(MainActivity.this, NextPageActivity.class);
                 startActivity(intent);
             }
         });
