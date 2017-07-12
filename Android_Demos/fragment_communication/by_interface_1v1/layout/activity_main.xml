@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    android:orientation="vertical"
+    tools:context="com.example.a61555.fragmentdemo.MainActivity">
+
+    <TextView
+        android:id="@+id/tv_data_ac"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="这里是Activity 从Fragment接收到的数据：" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:id="@+id/et_data_ac"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送到fragment"
+        android:id="@+id/btn_send_ac"
+        android:onClick="sendData"/>
+</LinearLayout>

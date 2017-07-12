@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_data_fg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="这里是Fragment 从Activity接收到的数据："/>
+
+    <EditText
+        android:id="@+id/et_data_fg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btn_send_fg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send to Activity"/>
+
+    <Button
+        android:id="@+id/btn_send_2_fg2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send to Fragment2"/>
+
+</LinearLayout>
