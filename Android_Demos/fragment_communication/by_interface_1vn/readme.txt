@@ -1,0 +1,1 @@
+ *  利用接口，实现Activity 和 Fragment 一对多单向通信
