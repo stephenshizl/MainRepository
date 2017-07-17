@@ -16,25 +16,26 @@ public class DateUtils {
     private int day;
     private int hour;
     private int minute;
+    private static DateUtils instance;
 
-    private DateUtils() {
-        calendar = Calendar.getInstance();
-    }
+    private DateUtils() {}
 
     public static DateUtils getInstance() {
-        return new DateUtils();
+        if (instance == null)
+            instance = new DateUtils();
+        return instance;
     }
     /*
         将日期的字符串转换为字符数组
      */
     public char[] getDateCharArray() {
-        return (formatDate(getYear(), getMonth(), getDay())).toCharArray();
+        return (formatDate(year, month, day)).toCharArray();
     }
     /*
         将时间的字符串转换为字符数组
      */
     public char[] getTimeCharArray() {
-        return (formatTime(getHour(), getMinute()).toCharArray());
+        return (formatTime(hour, minute).toCharArray());
     }
     /*
         格式化日期
@@ -45,7 +46,7 @@ public class DateUtils {
         return simpleDateFormat.format(date);
     }
     /*
-        格式化日期
+        格式化详细日期（包含小时、分钟）
      */
     public String formatTime(int hour, int minute) {
         Date date = new Date(0, 0, 0, hour, minute);
@@ -56,64 +57,51 @@ public class DateUtils {
         初始化日期和时间
      */
     public void initDate() {
-        setYear(calendar.get(Calendar.YEAR));
-        setMonth(calendar.get(Calendar.MONTH));
-        setDay(calendar.get(Calendar.DAY_OF_MONTH));
-        setHour(calendar.get(Calendar.HOUR_OF_DAY));
-        setMinute(calendar.get(Calendar.MINUTE));
+        this.year = calendar.get(Calendar.YEAR);
+        this.month = calendar.get(Calendar.MONTH);
+        this.day = calendar.get(Calendar.DAY_OF_MONTH);
+        this.hour = calendar.get(Calendar.HOUR_OF_DAY);
+        this.minute = calendar.get(Calendar.MINUTE);
     }
     /*
         设置日期
      */
     public void setDate(int year, int month, int day) {
-        setYear(year);
-        setMonth(month);
-        setDay(day);
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.day = day;
     }
     /*
         设置时间
      */
     public void setTime(int hour, int minute) {
-        setHour(hour);
-        setMinute(minute);
+        this.hour = hour;
+        this.minute = minute;
     }
+
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
     public int getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
-    }
 
     public int getDay() {
         return day;
     }
 
-    private void setDay(int day) {
-        this.day = day;
-    }
 
     public int getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
 
     public int getMinute() {
         return minute;
     }
 
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
 }
