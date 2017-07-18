@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CardViewDemo</string>
+    <string name="sup_content1">This sample uses the Gradle build system. </string>
+    <string name="sup_content2">RecyclerView is a more advanced and flexible version of ListView. This widget is a container for large sets of views that can be recycled and scrolled very efficiently. </string>
+    <string name="sup_content3">To build this project, use the \'gradlew build\' command or use \'Import Project\' in Android Studio.</string>
+    <string name="sup_content4">Use the RecyclerView widget when you have lists with elements that change dynamically.</string>
+    <string name="sup_content5">This sample uses the Gradle build system. </string>
+</resources>
