@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 /**
  * Created by 61555 on 2017/7/20.
+ * 使用AsyncTask实现多线通信
  * AsyncTask是一个抽象泛型类
  * abstract class AsyncTask<Params, Progress, Result>
  *     Params：开始异步任务执行时传入的参数类型；
@@ -28,6 +29,9 @@ public class CostumerTask extends AsyncTask<String, Integer, Boolean> {
         this.context = context;
     }
 
+    /**
+     * 初始化progress dialog
+     */
     public void initProgressDialog() {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Load Data");
@@ -39,7 +43,7 @@ public class CostumerTask extends AsyncTask<String, Integer, Boolean> {
         progressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                cancel(true);
+                cancel(true);//将会调用onCancelled方法，将线程标记为cancelled
             }
         });
     }
@@ -64,9 +68,10 @@ public class CostumerTask extends AsyncTask<String, Integer, Boolean> {
         Log.i(mark, "doInBackground");
         int progress = 0;
         while ( progress < PROGRESS_MAX) {
-
+            //判断task是否被取消
             if (isCancelled())
                 return false;
+            //模拟进度不断增加的情景
             progress += 5;
             publishProgress(progress);
             try {
